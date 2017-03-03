@@ -17,12 +17,13 @@ use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
  *
  * @author loic
  */
+  //ce handler permet de gérer des actions lors de la deconnexion de l'utilisateur
 class LogoutHandler implements LogoutSuccessHandlerInterface{
     
-
+    //la fonction va permettre de deconnecter l'utilisateur de la session
     public function onLogoutSuccess(Request $request) {
-        
-        return new RedirectResponse("/disconnect/".$request->getSession()->get("usr"));
+        // on redirige vers la route choisi
+        return new RedirectResponse("./disconnect/".$request->getSession()->get("usr"));
     }
 
 

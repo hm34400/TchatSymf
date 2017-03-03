@@ -50,8 +50,23 @@ class Utilisateur implements UserInterface,  Serializable ,  JsonSerializable
      * @ORM\Column(name="typing", type="boolean")
      */
     private $typing;
+    
+    /**
+     * @var bool
+     * 
+     * @ORM\Column(name="afk", type="boolean")
+     */
+    private $afk;
+    
+    function getAfk() {
+        return $this->afk;
+    }
 
+    function setAfk($afk) {
+        $this->afk = $afk;
+    }
 
+    
     /**
      * Get id
      *
@@ -192,7 +207,9 @@ class Utilisateur implements UserInterface,  Serializable ,  JsonSerializable
 
     public function jsonSerialize() {
         return array(
-            'email'=>  $this->email 
+            'email'=>  $this->email,
+                'afk'=> $this->afk,
+                'typing'=> $this->typing
         );
     }
 

@@ -40,7 +40,16 @@ function getUsers(){
             $("#users").empty();
             var liste = $.parseJSON(data);
             $(liste).each(function(e){
-                $("#users").append("<p>@"+this.email+"</p>");
+                var typ = "";
+                if (this.typing == 1){
+                    typ = "...";
+                }
+                if(this.afk == 1){
+                 $("#users").append("<p><del>@"+this.email+typ+"</del></p>");   
+                }else{
+                    
+                  $("#users").append("<p>@"+this.email+typ+"</p>");   
+                }
             });
             setTimeout(function(){
             getMessages();
@@ -70,4 +79,42 @@ function getMessages(){
         },1000);
         }
     });
+    
+    
 }
+function updateAfk(flag){
+    if (flag){
+        $.ajax({
+        async: true,
+        type: 'POST',
+        dataType: 'text',
+        url: "./user/afk"
+    });
+        
+    }else{
+    $.ajax({
+        async: true,
+        type: 'POST',
+        dataType: 'text',
+        url: "./user/noafk"        
+    });
+    }
+}
+$("body").click(function(){
+    updateAfk(false);
+    setTimeout(function(){
+        updateAfk(true);
+    },2000
+    );
+});
+function switchTyping(){
+    $.ajax({
+        async: true,
+        type: 'POST',
+        dataType: 'text',
+        url: "./user/typing"        
+    });
+}
+$("#msg").focusin(switchTyping());
+$("#msg").focusout(switchTyping());
+

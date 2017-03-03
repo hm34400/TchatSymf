@@ -57,10 +57,14 @@ class LoginController extends Controller {
      */
     public function disconnect(Request $r,$id){
         $em = $this->getDoctrine()->getManager();
+        //on recupere l'id de l'utilisateur connecté
         $user = $this->getDoctrine()->getRepository(Utilisateur::class)->find($id);
+        //on change la valeur booléenne de la propriété de l'utilisateur
         $user->setConnected(false);
+        //on sauvegarde les changements dans la base de donnée
         $em->persist($user);
         $em->flush();
+        //on redirige sur la route "homepage"
         return $this->redirectToRoute("homepage");
     }
 }

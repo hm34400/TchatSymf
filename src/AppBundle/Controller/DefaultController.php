@@ -32,6 +32,7 @@ class DefaultController extends Controller {
     /**
      * @Route("/users")
      */
+    //on recupere une liste d'utilisateur
     public function getUsers() {
 
         return new JsonResponse($this->getDoctrine()->getRepository(Utilisateur::class)->findBy(array("connected" => "1")));
@@ -41,6 +42,7 @@ class DefaultController extends Controller {
     /**
      * @Route("/messages")
      */
+    //on recupere une liste de message
     public function getMessages() {
 
         return new JsonResponse($this->getDoctrine()->getRepository(Message::class)->findAll());
@@ -64,7 +66,40 @@ class DefaultController extends Controller {
         $em->flush();
         return new Response("ok");
     }
-
+    
+    /**
+     *@Route("/user/afk") 
+     */
+    public function setAfk(Request $r){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user -> setAfk(1);
+        $em->merge($user);
+        $em->flush();
+        return new Response("afk");
+    }
+    /**
+     *@Route("/user/noafk") 
+     */
+    public function setNoAfk(Request $r){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user -> setAfk(0);
+        $em->merge($user);
+        $em->flush();
+        return new Response("no afk");
+    }
+    /**
+     * @Route("/user/typing")
+     */
+    public function switchTyping(){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user->setTyping(!$user->getTyping());
+        $em->merge($user);
+        $em->flush();
+        return new Response("typing");
+    }
 
 
 }
