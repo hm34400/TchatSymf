@@ -115,6 +115,10 @@ function switchTyping(){
         url: "./user/typing"        
     });
 }
-$("#msg").focusin(switchTyping());
-$("#msg").focusout(switchTyping());
+$("#msg").focusin(function(){
+    switchTyping();
+    });
+$("#msg").focusout(function(){
+    switchTyping();
+    });
 
